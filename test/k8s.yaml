@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: <JOB_NAME>
+  namespace: smart
+  labels:
+    app: <JOB_NAME>
+spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: <JOB_NAME>
+  template:
+    metadata:
+      labels:
+        app: <JOB_NAME>
+    spec:
+      restartPolicy: Always
+      containers:
+      - image: harbor_url/library/<JOB_NAME>:<IMAGE_TAG>
+        name: <JOB_NAME>
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: <PRO_PORT>
+kind: Service
+apiVersion: v1
+metadata:
+  name: <JOB_NAME>
+  namespace: smart
+spec:
+  selector:
+    app: <JOB_NAME>
+  type:  NodePort
+  ports:
+  - name: http
+    port: <PRO_PORT>
+    targetPort:  <PRO_PORT>
+    nodePort: <OUT_PORT>
+
+

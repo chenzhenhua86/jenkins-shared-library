@@ -1,0 +1,65 @@
+apiVersion:
+kind: Pod
+metadata:
+  labels:
+    jenkins: "slave"
+    jenkins/label: 'k8s-slave'
+spec:
+  containers:
+  - command:
+    - "cat"
+    image: "node:alpine"
+    imagePullPolicy: "IfNotPresent"
+    name: "node"
+    tty: true
+  - command:
+    - "cat"
+    image: "cnych/kubectl"
+    imagePullPolicy: "IfNotPresent"
+    name: "kubectl"
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/.kube"
+      name: "volume-0"
+      readOnly: false
+    - mountPath: "/var/run/docker.sock"
+      name: "volume-1"
+      readOnly: false
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+  - command:
+    - "cat"
+    image: "library/tool:v4"
+    imagePullPolicy: "IfNotPresent"
+    name: "tools"
+    tty: true
+  - command:
+    - "cat"
+    image: "docker"
+    imagePullPolicy: "IfNotPresent"
+    name: "docker"
+    resources:
+      limits: {}
+      requests: {}
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/.kube"
+      name: "volume-0"
+      readOnly: false
+    - mountPath: "/var/run/docker.sock"
+      name: "volume-1"
+      readOnly: false
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+  volumes:
+  - hostPath:
+      path: "/root/.kube"
+    name: "volume-0"
+  - hostPath:
+      path: "/var/run/docker.sock"
+    name: "volume-1"
+  - emptyDir:
+      medium: ""
+    name: "workspace-volume"

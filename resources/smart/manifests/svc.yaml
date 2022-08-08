@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: <JOB_NAME>
+  namespace: smart
+spec:
+  selector:
+    app: <JOB_NAME>
+  type:  NodePort
+  ports:
+  - name: http
+    port: <PRO_PORT>
+    targetPort:  <PRO_PORT>
+    nodePort: <OUT_PORT>

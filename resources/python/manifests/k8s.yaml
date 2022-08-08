@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: <JOB_NAME>
+  namespace: python
+  labels:
+    app: <JOB_NAME>
+spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: <JOB_NAME>
+  template:
+    metadata:
+      labels:
+        app: <JOB_NAME>
+    spec:
+      restartPolicy: Always
+      containers:
+      - image: <IMAGE_URL>
+        name: <JOB_NAME>
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
