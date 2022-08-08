@@ -165,12 +165,12 @@ pipeline {
 		//gitLabConnection('gitlab')
 	}
     environment {
-        PROJECT = "assets-cms"
+        PROJECT = "svntest"
        // CurrEnv = "test"
-        PROPort= "8160"
-        OUTPort= "31160"
+        PROPort= "8100"
+        OUTPort= "31000"
 
-        IMAGE_REPO = "harbor_url/qfcsmart/${PROJECT}"
+        IMAGE_REPO = "harbor_url/smart/${PROJECT}"
         IMAGE_CREDENTIAL = "smartharbor"
         IMGTAG = "${CurrEnv}${SVN_REVISION}-${BUILD_NUMBER}"
     }
